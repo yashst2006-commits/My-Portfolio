@@ -61,15 +61,37 @@ export default async function handler(req: any, res: any) {
     });
 
     if (!response.ok) {
+      let errorDetail = 'Failed to send mail notification.';
       const errorText = await response.text();
-      console.error('Resend API call failed:', errorText);
-      return res.status(500).json({ error: 'Failed to send mail notification.' });
+      console.error('Resend API call failed with status:', response.status, 'Response:', errorText);
+      try {
+        const errorJson = JSON.parse(errorText);
+        if (errorJson.message) {
+          errorDetail = `Mail service error: ${errorJson.message}`;
+        }
+      } catch (e) {
+        if (errorText) {
+          errorDetail = `Mail service error: ${errorText}`;
+        }
+      }
+      return res.status(response.status || 500).json({ error: errorDetail });
     }
 
     const data = await response.json();
     return res.status(200).json({ success: true, data });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Server error handling contact message:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    if (error && typeof error === 'object') {
+      console.error('Error Details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name,
+        ...error
+      });
+    }
+    return res.status(500).json({ 
+      error: 'Internal Server Error',
+      details: error?.message || String(error)
+    });
   }
 }
