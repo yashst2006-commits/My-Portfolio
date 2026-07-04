@@ -61,19 +61,30 @@ export default async function handler(req: any, res: any) {
     });
 
     if (!response.ok) {
-      let errorDetail = 'Failed to send mail notification.';
       const errorText = await response.text();
       console.error('Resend API call failed with status:', response.status, 'Response:', errorText);
+
+      let providerMessage = 'Provider rejected the request.';
       try {
         const errorJson = JSON.parse(errorText);
         if (errorJson.message) {
-          errorDetail = `Mail service error: ${errorJson.message}`;
+          providerMessage = errorJson.message;
         }
       } catch (e) {
         if (errorText) {
-          errorDetail = `Mail service error: ${errorText}`;
+          providerMessage = errorText;
         }
       }
+
+      let errorDetail = `Mail service error (Status ${response.status}): ${providerMessage}`;
+      if (response.status === 401) {
+        errorDetail = 'Invalid configuration: The RESEND_API_KEY environment variable is invalid or expired.';
+      } else if (response.status === 403) {
+        errorDetail = 'Access denied: The request was rejected by Resend. Please ensure you are sending to/from verified domains or verified emails.';
+      } else if (response.status === 429) {
+        errorDetail = 'Rate limited: Too many email requests. Please try again later.';
+      }
+
       return res.status(response.status || 500).json({ error: errorDetail });
     }
 
