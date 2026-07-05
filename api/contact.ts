@@ -100,7 +100,7 @@ export default async function handler(req: any, res: any) {
         ...error
       });
     }
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: 'Internal Server Error',
       details: error?.message || String(error)
     });
