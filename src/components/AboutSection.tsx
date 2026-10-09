@@ -34,27 +34,13 @@ const CONTACT_ITEMS = [
   },
 ];
 
-/* ─── Core Areas Data ─── */
-const CORE_AREAS = [
-  'AI Engineering',
-  'ML Engineering',
-  'LLM Apps (RAG / Agents)',
-  'AR/VR',
-  'UI/UX',
-  'Full-Stack Web Development',
-  'Backend APIs',
-  'React + Next.js',
-  'Node.js + Express',
-  'MongoDB',
-];
-
 /* ─── Education Data ─── */
 const EDUCATION = [
   {
     title: 'B.E Computer Science and Engineering\n(Artificial Intelligence & Machine Learning)',
     institution: 'Sri Sairam Engineering College',
     duration: '2024 – Present',
-    score: 'CGPA: 8.0 / 10.0',
+    score: 'CGPA: 8.1 / 10.0',
   },
   {
     title: 'Higher Secondary Education',
@@ -165,6 +151,9 @@ const AboutSection: React.FC = () => {
             opacity: leftCard.isVisible ? 1 : 0,
             transform: leftCard.isVisible ? 'translateY(0)' : 'translateY(32px)',
             transition: 'all 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.1s',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
           }}
         >
           {/* About paragraph */}
@@ -174,7 +163,7 @@ const AboutSection: React.FC = () => {
               fontSize: '15px',
               lineHeight: '1.8',
               fontWeight: 400,
-              marginBottom: '32px',
+              marginBottom: '28px',
             }}
           >
             I am an AI &amp; Machine Learning student who enjoys building intelligent applications
@@ -185,7 +174,7 @@ const AboutSection: React.FC = () => {
           </p>
 
           {/* Contact items */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', marginBottom: '36px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {CONTACT_ITEMS.map((item) => (
               <div key={item.label} style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
                 <div
@@ -235,27 +224,6 @@ const AboutSection: React.FC = () => {
               </div>
             ))}
           </div>
-
-          {/* Core Areas */}
-          <div>
-            <h3
-              style={{
-                fontSize: '16px',
-                fontWeight: 700,
-                fontFamily: 'var(--font-display)',
-                color: '#FFFFFF',
-                marginBottom: '16px',
-                letterSpacing: '-0.01em',
-              }}
-            >
-              Core Areas
-            </h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-              {CORE_AREAS.map((area) => (
-                <CorePill key={area} label={area} />
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* ━━━━━ RIGHT: Education Timeline ━━━━━ */}
@@ -301,11 +269,16 @@ const AboutSection: React.FC = () => {
           display: grid;
           grid-template-columns: 1.05fr 0.95fr;
           gap: 36px;
-          align-items: start;
+          align-items: stretch;
         }
 
         .about-left-card {
           padding: 36px !important;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+          box-sizing: border-box;
         }
 
         @media (max-width: 960px) {
@@ -322,35 +295,6 @@ const AboutSection: React.FC = () => {
         }
       `}</style>
     </section>
-  );
-};
-
-/* ─── Core Area Pill Sub‑component ─── */
-const CorePill: React.FC<{ label: string }> = ({ label }) => {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <span
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        padding: '7px 16px',
-        background: hovered ? 'rgba(255, 140, 0, 0.10)' : 'rgba(255, 255, 255, 0.04)',
-        border: `1px solid ${hovered ? 'rgba(255, 140, 0, 0.35)' : 'rgba(255, 255, 255, 0.08)'}`,
-        borderRadius: '30px',
-        fontSize: '12.5px',
-        color: hovered ? '#FFFFFF' : 'var(--text-secondary)',
-        fontFamily: 'var(--font-mono)',
-        fontWeight: 500,
-        cursor: 'default',
-        transition: 'all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)',
-        transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
-      }}
-    >
-      {label}
-    </span>
   );
 };
 

@@ -143,7 +143,7 @@ const PROJECTS: Project[] = [
     fullTitle: 'Stack Overflow Clone: Developer Community with Social Networking',
     caption:
       'A full-stack Stack Overflow-inspired platform enhanced with modern social networking features for developer collaboration and community engagement.',
-    link: 'https://github.com/yashst2006-commits/stack-overflow-clone',
+    link: 'https://stack-overflow-clone-beta-wheat.vercel.app/',
     githubLink: 'https://github.com/yashst2006-commits/stack-overflow-clone',
     image: stackoverflowPreview,
     imageAlt: 'Stack Overflow Clone dashboard preview',

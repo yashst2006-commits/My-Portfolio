@@ -82,7 +82,21 @@ const TECH_LOGOS: Record<string, React.ReactNode> = {
 /* ══════════════════════════════════════════════════════
    EXPERIENCE DATA – identical content, unchanged
    ══════════════════════════════════════════════════════ */
-const EXPERIENCES = [
+interface ExperienceItem {
+  id: number;
+  title: string;
+  company: string;
+  badge: string;
+  period: string;
+  bullets: string[];
+  techs: string[];
+  certificateUrl?: string;
+  certificateName?: string;
+  lorUrl?: string;
+  lorName?: string;
+}
+
+const EXPERIENCES: ExperienceItem[] = [
   {
     id: 0,
     title: 'Full Stack Web Development Intern',
@@ -104,8 +118,10 @@ const EXPERIENCES = [
       'Git',
       'GitHub',
     ],
-    certificateUrl: '/certificates/Yashwanth S T-ElevanceSkills-Training-OL.pdf',
-    certificateName: 'Yashwanth S T-ElevanceSkills-Training-OL.pdf',
+    certificateUrl: '/certificates/Yashwanth%20S%20T-ElevanceSkills-Training-Certificate.pdf',
+    certificateName: 'Yashwanth_Experience_Certificate.pdf',
+    lorUrl: '/certificates/ElevanceSkills-LOR-Letter.pdf',
+    lorName: 'Yashwanth_Letter_of_Recommendation.pdf',
   },
   {
     id: 1,
@@ -172,14 +188,16 @@ const TechPill: React.FC<{ label: string }> = ({ label }) => {
 };
 
 /* ══════════════════════════════════════════════════════
-   CERTIFICATE BUTTON – identical styling
+   CERTIFICATE & RECOMMENDATION BUTTONS
    ══════════════════════════════════════════════════════ */
-const CertButton: React.FC<{ downloadUrl: string; fileName: string }> = ({ downloadUrl, fileName }) => {
+const CertButton: React.FC<{ downloadUrl: string; fileName?: string }> = ({ downloadUrl, fileName }) => {
   const [hovered, setHovered] = useState(false);
   return (
     <a
       href={downloadUrl}
       download={fileName}
+      target="_blank"
+      rel="noopener noreferrer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -211,11 +229,53 @@ const CertButton: React.FC<{ downloadUrl: string; fileName: string }> = ({ downl
   );
 };
 
+const LorButton: React.FC<{ downloadUrl: string; fileName?: string }> = ({ downloadUrl, fileName }) => {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <a
+      href={downloadUrl}
+      download={fileName}
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '8px',
+        background: hovered ? 'rgba(255,140,0,0.12)' : 'transparent',
+        color: hovered ? '#FFFFFF' : 'var(--color-orange)',
+        fontWeight: 600,
+        fontFamily: 'var(--font-sans)',
+        fontSize: '13.5px',
+        letterSpacing: '0.3px',
+        padding: '10px 20px',
+        borderRadius: '10px',
+        border: `1px solid ${hovered ? 'rgba(255,140,0,0.5)' : 'rgba(255,140,0,0.3)'}`,
+        transition: 'all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)',
+        transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
+        boxShadow: hovered ? '0 6px 20px rgba(255,140,0,0.14)' : 'none',
+        cursor: 'pointer',
+        textDecoration: 'none',
+      }}
+    >
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+      </svg>
+      Letter of Recommendation
+    </a>
+  );
+};
+
 /* ══════════════════════════════════════════════════════
    EXPERIENCE CARD
    ══════════════════════════════════════════════════════ */
 const ExperienceCard: React.FC<{
-  exp: (typeof EXPERIENCES)[0];
+  exp: ExperienceItem;
 }> = ({ exp }) => {
   return (
     <div
@@ -332,10 +392,15 @@ const ExperienceCard: React.FC<{
           ))}
         </ul>
 
-        {/* Certificate Button */}
-        {exp.certificateUrl && (
-          <div style={{ marginBottom: '18px' }}>
-            <CertButton downloadUrl={exp.certificateUrl} fileName={exp.certificateName} />
+        {/* Certificate & LOR Buttons */}
+        {(exp.certificateUrl || exp.lorUrl) && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
+            {exp.certificateUrl && (
+              <CertButton downloadUrl={exp.certificateUrl} fileName={exp.certificateName} />
+            )}
+            {exp.lorUrl && (
+              <LorButton downloadUrl={exp.lorUrl} fileName={exp.lorName} />
+            )}
           </div>
         )}
 

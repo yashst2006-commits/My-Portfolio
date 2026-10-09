@@ -1,4 +1,43 @@
 import React, { useEffect, useRef, useState } from 'react';
+import {
+  SiPython,
+  SiC,
+  SiJavascript,
+  SiTypescript,
+  SiScikitlearn,
+  SiPandas,
+  SiNumpy,
+  SiPytorch,
+  SiHtml5,
+  SiReact,
+  SiNextdotjs,
+  SiTailwindcss,
+  SiFastapi,
+  SiNodedotjs,
+  SiExpress,
+  SiMysql,
+  SiMongodb,
+  SiSqlite,
+  SiFigma,
+  SiUnity,
+  SiGit,
+  SiGithub,
+  SiJupyter,
+  SiStreamlit,
+} from 'react-icons/si';
+import {
+  TbBrandCSharp,
+  TbBrandCss3,
+  TbBrandAdobe,
+  TbDatabase,
+  TbBrain,
+  TbFileSearch,
+  TbChartScatter,
+  TbChartLine,
+  TbDevices,
+  TbVectorTriangle,
+  TbDeviceGamepad2,
+} from 'react-icons/tb';
 
 /* ══════════════════════════════════════════════════════
    INTERSECTION OBSERVER HOOK
@@ -27,150 +66,102 @@ function useInView(threshold = 0.15) {
 }
 
 /* ══════════════════════════════════════════════════════
-   COUNT UP COMPONENT
+   SKILLS DATA DEFINITIONS
    ══════════════════════════════════════════════════════ */
-interface CountUpProps {
-  end: number;
-  duration?: number;
-  delay?: number;
-  startTrigger: boolean;
-}
-
-const CountUp: React.FC<CountUpProps> = ({ end, duration = 1000, delay = 0, startTrigger }) => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!startTrigger) return;
-
-    let startTimestamp: number | null = null;
-    let timerId: number;
-
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      // easeOutQuad: progress * (2 - progress) for smooth deceleration
-      const easedProgress = progress * (2 - progress);
-      setCount(Math.floor(easedProgress * end));
-
-      if (progress < 1) {
-        timerId = requestAnimationFrame(step);
-      } else {
-        setCount(end);
-      }
-    };
-
-    const delayTimer = setTimeout(() => {
-      timerId = requestAnimationFrame(step);
-    }, delay);
-
-    return () => {
-      clearTimeout(delayTimer);
-      cancelAnimationFrame(timerId);
-    };
-  }, [end, duration, delay, startTrigger]);
-
-  return <>{count}</>;
-};
-
-/* ══════════════════════════════════════════════════════
-   SKILLS DATA
-   ══════════════════════════════════════════════════════ */
-interface Skill {
+interface SkillItemData {
   name: string;
-  percentage: number;
+  icon: React.ReactNode;
 }
 
 interface SkillCategory {
   category: string;
-  skills: Skill[];
+  skills: SkillItemData[];
 }
 
 const SKILLS_DATA: SkillCategory[] = [
   {
     category: 'Languages',
     skills: [
-      { name: 'Python', percentage: 92 },
-      { name: 'C', percentage: 69 },
-      { name: 'C#', percentage: 60 },
-      { name: 'JavaScript', percentage: 65 },
-      { name: 'TypeScript', percentage: 60 },
-      { name: 'SQL', percentage: 88 }
-    ]
+      { name: 'Python', icon: <SiPython size={17} /> },
+      { name: 'C', icon: <SiC size={17} /> },
+      { name: 'C#', icon: <TbBrandCSharp size={18} /> },
+      { name: 'JavaScript', icon: <SiJavascript size={17} /> },
+      { name: 'TypeScript', icon: <SiTypescript size={17} /> },
+      { name: 'SQL', icon: <TbDatabase size={18} /> },
+    ],
   },
   {
     category: 'AI · ML',
     skills: [
-      { name: 'Scikit-learn', percentage: 92 },
-      { name: 'Pandas', percentage: 89 },
-      { name: 'NumPy', percentage: 86 },
-      { name: 'PyTorch', percentage: 69 },
-      { name: 'NLP', percentage: 71 },
-      { name: 'RAG', percentage: 80 }
-    ]
+      { name: 'Scikit-learn', icon: <SiScikitlearn size={17} /> },
+      { name: 'Pandas', icon: <SiPandas size={17} /> },
+      { name: 'NumPy', icon: <SiNumpy size={17} /> },
+      { name: 'PyTorch', icon: <SiPytorch size={17} /> },
+      { name: 'NLP', icon: <TbBrain size={18} /> },
+      { name: 'RAG', icon: <TbFileSearch size={18} /> },
+    ],
   },
   {
     category: 'Data Analytics and Visualization',
     skills: [
-      { name: 'Matplotlib', percentage: 90 },
-      { name: 'Seaborn', percentage: 83 }
-    ]
+      { name: 'Matplotlib', icon: <TbChartLine size={18} /> },
+      { name: 'Seaborn', icon: <TbChartScatter size={18} /> },
+    ],
   },
   {
     category: 'Frontend',
     skills: [
-      { name: 'HTML', percentage: 90 },
-      { name: 'CSS', percentage: 85 },
-      { name: 'React', percentage: 80 },
-      { name: 'Next.js', percentage: 72 },
-      { name: 'TailwindCSS', percentage: 70 },
-      { name: 'Responsive Design', percentage: 88 }
-    ]
+      { name: 'HTML', icon: <SiHtml5 size={17} /> },
+      { name: 'CSS', icon: <TbBrandCss3 size={18} /> },
+      { name: 'React', icon: <SiReact size={17} /> },
+      { name: 'Next.js', icon: <SiNextdotjs size={17} /> },
+      { name: 'TailwindCSS', icon: <SiTailwindcss size={17} /> },
+      { name: 'Responsive Design', icon: <TbDevices size={18} /> },
+    ],
   },
   {
     category: 'Backend and APIs',
     skills: [
-      { name: 'FastAPI', percentage: 90 },
-      { name: 'Node.js', percentage: 70 },
-      { name: 'Express.js', percentage: 72 }
-    ]
+      { name: 'FastAPI', icon: <SiFastapi size={17} /> },
+      { name: 'Node.js', icon: <SiNodedotjs size={17} /> },
+      { name: 'Express.js', icon: <SiExpress size={17} /> },
+    ],
   },
   {
     category: 'Database',
     skills: [
-      { name: 'MySQL', percentage: 90 },
-      { name: 'MongoDB', percentage: 70 },
-      { name: 'SQLite', percentage: 72 },
-      { name: 'FAISS', percentage: 82 }
-    ]
+      { name: 'MySQL', icon: <SiMysql size={17} /> },
+      { name: 'MongoDB', icon: <SiMongodb size={17} /> },
+      { name: 'SQLite', icon: <SiSqlite size={17} /> },
+      { name: 'FAISS', icon: <TbVectorTriangle size={18} /> },
+    ],
   },
   {
     category: 'Design',
     skills: [
-      { name: 'Figma', percentage: 90 },
-      { name: 'Adobe XD', percentage: 92 },
-      { name: '2D/3D Games', percentage: 89 }
-    ]
+      { name: 'Figma', icon: <SiFigma size={17} /> },
+      { name: 'Adobe XD', icon: <TbBrandAdobe size={18} /> },
+      { name: '2D/3D Games', icon: <TbDeviceGamepad2 size={18} /> },
+    ],
   },
   {
     category: 'Tools',
     skills: [
-      { name: 'Unity', percentage: 89 },
-      { name: 'Git', percentage: 75 },
-      { name: 'GitHub', percentage: 90 },
-      { name: 'Jupyter', percentage: 81 },
-      { name: 'Streamlit', percentage: 89 }
-    ]
-  }
+      { name: 'Unity', icon: <SiUnity size={17} /> },
+      { name: 'Git', icon: <SiGit size={17} /> },
+      { name: 'GitHub', icon: <SiGithub size={17} /> },
+      { name: 'Jupyter', icon: <SiJupyter size={17} /> },
+      { name: 'Streamlit', icon: <SiStreamlit size={17} /> },
+    ],
+  },
 ];
-
-const ACCENT_COLOR = 'var(--color-orange)';
 
 /* ══════════════════════════════════════════════════════
    SKILL CARD COMPONENT
    ══════════════════════════════════════════════════════ */
 interface SkillCardProps {
   category: string;
-  skills: Skill[];
+  skills: SkillItemData[];
   cardIndex: number;
 }
 
@@ -190,36 +181,17 @@ const SkillCard: React.FC<SkillCardProps> = ({ category, skills, cardIndex }) =>
       <div className="skills-category-header">
         {category}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {skills.map((skill, index) => {
-          const color = ACCENT_COLOR;
-          const staggerDelay = index * 90; // 90ms stagger delay between rows
-
-          return (
-            <div key={skill.name} className="skill-row">
-              <div className="skill-name">
-                {skill.name}
-              </div>
-              <div className="skill-bar-track">
-                <div
-                  className="skill-bar-fill"
-                  style={{
-                    backgroundColor: color,
-                    transform: isVisible ? `scaleX(${skill.percentage / 100})` : 'scaleX(0)',
-                    transition: `transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) ${staggerDelay}ms`,
-                    boxShadow: isVisible ? `0 0 10px ${color}25` : 'none',
-                  }}
-                />
-              </div>
-              <div className="skill-percentage" style={{ color }}>
-                <span className="skill-percentage-num">
-                  <CountUp end={skill.percentage} duration={1100} delay={staggerDelay} startTrigger={isVisible} />
-                </span>
-                %
-              </div>
+      <div className="skills-items-grid">
+        {skills.map((skill) => (
+          <div key={skill.name} className="skill-item">
+            <div className="skill-icon-tile">
+              {skill.icon}
             </div>
-          );
-        })}
+            <span className="skill-item-name" title={skill.name}>
+              {skill.name}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -329,6 +301,7 @@ const SkillsSection: React.FC = () => {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 24px;
+          align-items: stretch;
         }
 
         .skills-card {
@@ -338,6 +311,10 @@ const SkillsSection: React.FC = () => {
           padding: 28px;
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
           transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          box-sizing: border-box;
         }
 
         .skills-card:hover {
@@ -353,59 +330,76 @@ const SkillsSection: React.FC = () => {
           color: var(--text-secondary);
           text-transform: uppercase;
           padding-bottom: 10px;
-          margin-bottom: 22px;
+          margin-bottom: 20px;
           border-bottom: 1px solid rgba(255, 255, 255, 0.08);
           font-family: var(--font-mono);
         }
 
-        .skill-row {
-          display: flex;
-          align-items: center;
-          gap: 16px;
+        .skills-items-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+          align-content: start;
         }
 
-        .skill-name {
-          width: 140px;
-          min-width: 140px;
-          font-size: 14.5px;
-          color: #FFFFFF;
+        .skill-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 8px 12px;
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          border-radius: 10px;
+          cursor: default;
+          transition: transform 250ms ease, border-color 250ms ease, background-color 250ms ease, box-shadow 250ms ease;
+          min-width: 0;
+          box-sizing: border-box;
+        }
+
+        .skill-item:hover {
+          transform: translateY(-2px);
+          border-color: rgba(255, 140, 0, 0.4);
+          background: rgba(255, 140, 0, 0.04);
+          box-shadow: 0 4px 14px rgba(255, 140, 0, 0.08);
+        }
+
+        .skill-icon-tile {
+          width: 32px;
+          height: 32px;
+          min-width: 32px;
+          min-height: 32px;
+          border-radius: 8px;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 140, 0, 0.15);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--text-secondary);
+          transition: transform 250ms ease, border-color 250ms ease, color 250ms ease, background-color 250ms ease;
+          flex-shrink: 0;
+        }
+
+        .skill-item:hover .skill-icon-tile {
+          transform: scale(1.08);
+          border-color: rgba(255, 140, 0, 0.5);
+          background: rgba(255, 140, 0, 0.10);
+          color: var(--color-orange);
+        }
+
+        .skill-item-name {
+          font-size: 13.5px;
           font-weight: 500;
           font-family: var(--font-sans);
+          color: rgba(255, 255, 255, 0.9);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          transition: transform 250ms ease, color 250ms ease;
         }
 
-        .skill-bar-track {
-          flex: 1;
-          height: 6px;
-          background: rgba(255, 255, 255, 0.06);
-          border-radius: 3px;
-          overflow: hidden;
-          position: relative;
-        }
-
-        .skill-bar-fill {
-          position: absolute;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          right: 0;
-          border-radius: 3px;
-          transform-origin: left;
-        }
-
-        .skill-percentage {
-          width: 50px;
-          min-width: 50px;
-          text-align: right;
-          font-size: 14.5px;
-          font-weight: 700;
-          font-family: var(--font-mono);
-        }
-
-        .skill-percentage-num {
-          font-weight: 700;
+        .skill-item:hover .skill-item-name {
+          transform: translateX(2px);
+          color: #FFFFFF;
         }
 
         /* ── Responsive breakpoints ── */
@@ -420,17 +414,33 @@ const SkillsSection: React.FC = () => {
           .skills-card {
             padding: 20px;
           }
+
+          .skills-items-grid {
+            grid-template-columns: 1fr;
+            gap: 10px;
+          }
           
-          .skill-name {
-            width: 110px;
-            min-width: 110px;
-            font-size: 13.5px;
+          .skill-item {
+            padding: 8px 10px;
           }
 
-          .skill-percentage {
-            font-size: 13.5px;
-            width: 44px;
-            min-width: 44px;
+          .skill-item-name {
+            font-size: 13px;
+          }
+        }
+
+        /* ── Respect prefers-reduced-motion ── */
+        @media (prefers-reduced-motion: reduce) {
+          .skill-item,
+          .skill-item:hover,
+          .skill-icon-tile,
+          .skill-item:hover .skill-icon-tile,
+          .skill-item-name,
+          .skill-item:hover .skill-item-name,
+          .skills-card,
+          .skills-card:hover {
+            transform: none !important;
+            transition: border-color 250ms ease, background-color 250ms ease, color 250ms ease, box-shadow 250ms ease !important;
           }
         }
       `}</style>

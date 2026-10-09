@@ -214,7 +214,7 @@ function App() {
                   </a>
 
                   <a
-                    href="/Yashwanth S T Resume.pdf"
+                    href="/Yashwanth S T Internship Resume.pdf"
                     download="Yashwanth S T Resume.pdf"
                     className="btn-secondary"
                     style={{
