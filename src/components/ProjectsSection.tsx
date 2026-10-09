@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import fairtermsPreview from '../assets/fairterms_preview.png';
-import stackoverflowPreview from '../assets/stackoverflow_preview.png';
+import stackoverflowPreview from '../assets/CodeQuest Dark Mode Dashboard.png';
 
 /* ══════════════════════════════════════════════════════
    TECH LOGOS
